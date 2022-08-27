@@ -9,3 +9,7 @@
 button {
   @apply hover:shadow-xl active:translate-y-1 hover:transition-transform;
 }
+
+.gridCV {
+  @apply grid grid-cols-6 grid-rows-6;
+}
