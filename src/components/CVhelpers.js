@@ -12,17 +12,9 @@ export let personalCV = {
 export let experienceCV = [
   {
     id: uuidv4(),
-    position: '1',
-    company: '1',
-    city: '1',
-    from: 0,
-    to: 0,
-  },
-  {
-    id: uuidv4(),
-    position: '2',
-    company: '2',
-    city: '2',
+    position: '',
+    company: '',
+    city: '',
     from: 0,
     to: 0,
   },
@@ -37,12 +29,22 @@ export let educationCV = [
     from: 0,
     to: 0,
   },
-  {
-    id: uuidv4(),
-    university: '',
-    city: '',
-    degree: '',
-    from: 0,
-    to: 0,
-  },
 ];
+
+export const experienceSingle = {
+  id: uuidv4(),
+  position: '',
+  company: '',
+  city: '',
+  from: 0,
+  to: 0,
+};
+
+export const educationSingle = {
+  id: uuidv4(),
+  university: '',
+  city: '',
+  degree: '',
+  from: 0,
+  to: 0,
+};

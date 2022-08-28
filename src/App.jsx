@@ -5,7 +5,13 @@ import Experience from './components/Experience';
 import Education from './components/Education';
 import ExperiencePreview from './components/ExperiencePreview';
 import EducationPreview from './components/EducationPreview';
-import { educationCV, experienceCV, personalCV } from './components/CVhelpers';
+import {
+  educationCV,
+  educationSingle,
+  experienceCV,
+  experienceSingle,
+  personalCV,
+} from './components/CVhelpers';
 
 function App() {
   const [personal, setPersonal] = useState(personalCV);
@@ -19,7 +25,7 @@ function App() {
         firstName: name === 'First Name' ? e.target.value : prev.firstName,
         lastName: name === 'Last Name' ? e.target.value : prev.lastName,
         title: name === 'Title' ? e.target.value : prev.title,
-        address: name === 'Address' ? e.target.value : prev.adress,
+        address: name === 'Address' ? e.target.value : prev.address,
         phone: name === 'Phone Number' ? e.target.value : prev.phone,
         email: name === 'Email' ? e.target.value : prev.email,
       };
@@ -66,6 +72,18 @@ function App() {
       return newExpList;
     });
 
+  const handleDelete = (list, id) => {
+    if (list === 'exp')
+      setExpList((prev) => prev.filter((item) => item.id !== id));
+    if (list === 'edu')
+      setEduList((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  const handleAdd = (list) => {
+    if (list === 'exp') setExpList((prev) => [...prev, experienceSingle]);
+    if (list === 'edu') setEduList((prev) => [...prev, educationSingle]);
+  };
+
   return (
     <div className="flex flex-col mxl:justify-center items-center">
       <div className="bg-blue-500 rounded-xl shadow-lg w-[50vw] left-10 my-6 xl:absolute">
@@ -101,10 +119,16 @@ function App() {
                   key={item.id}
                   id={item.id}
                   handleExperience={handleExperience}
+                  handleDelete={handleDelete}
                 />
               );
             })}
-            <button className="bg-blue-900 rounded-lg p-2 text-xl">Add</button>
+            <button
+              className="bg-blue-900 rounded-lg p-2 text-xl"
+              onClick={() => handleAdd('exp')}
+            >
+              Add
+            </button>
           </div>
 
           <div className="flex flex-col gap-3">
@@ -115,10 +139,16 @@ function App() {
                   key={item.id}
                   id={item.id}
                   handleEducation={handleEducation}
+                  handleDelete={handleDelete}
                 />
               );
             })}
-            <button className="bg-blue-900 rounded-lg p-2 text-xl">Add</button>
+            <button
+              className="bg-blue-900 rounded-lg p-2 text-xl"
+              onClick={() => handleAdd('edu')}
+            >
+              Add
+            </button>
           </div>
 
           <div className="flex flex-col gap-3 mt-5">
