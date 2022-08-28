@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import InputField from './components/InputField';
 import Experience from './components/Experience';
 import Education from './components/Education';
 import ExperiencePreview from './components/ExperiencePreview';
 import EducationPreview from './components/EducationPreview';
-import { personalCV, experienceCV, educationCV } from './components/CVhelpers';
+import { educationCV, experienceCV, personalCV } from './components/CVhelpers';
 
 function App() {
   const [personal, setPersonal] = useState(personalCV);
-  const [experience, setExperience] = useState(experienceCV);
-  const [education, setEducation] = useState(educationCV);
+  const [expList, setExpList] = useState(experienceCV);
+  const [eduList, setEduList] = useState(educationCV);
 
   const handlePersonal = (e) => {
     const name = e.target.placeholder;
@@ -24,6 +25,46 @@ function App() {
       };
     });
   };
+  const handleEducation = (e, id) =>
+    setEduList((prev) => {
+      const name = e.target.placeholder;
+      const currEdu = prev.find((item) => item.id === id);
+      const currEduIndex = prev.indexOf(currEdu);
+      const newEdu = {
+        id: id,
+        university:
+          name === 'University Name' ? e.target.value : currEdu.university,
+        city: name === 'City' ? e.target.value : currEdu.city,
+        degree: name === 'Degree' ? e.target.value : currEdu.degree,
+        from: name === 'From' ? e.target.value : currEdu.from,
+        to: name === 'To' ? e.target.value : currEdu.to,
+      };
+
+      const newEduList = prev.slice();
+      newEduList.splice(currEduIndex, 1, newEdu);
+
+      return newEduList;
+    });
+
+  const handleExperience = (e, id) =>
+    setExpList((prev) => {
+      const name = e.target.placeholder;
+      const currExp = prev.find((item) => item.id === id);
+      const currExpIndex = prev.indexOf(currExp);
+      const newExp = {
+        id: id,
+        position: name === 'Position' ? e.target.value : currExp.position,
+        company: name === 'Company' ? e.target.value : currExp.company,
+        city: name === 'City' ? e.target.value : currExp.city,
+        from: name === 'From' ? e.target.value : currExp.from,
+        to: name === 'To' ? e.target.value : currExp.to,
+      };
+
+      const newExpList = prev.slice();
+      newExpList.splice(currExpIndex, 1, newExp);
+
+      return newExpList;
+    });
 
   return (
     <div className="flex flex-col mxl:justify-center items-center">
@@ -52,8 +93,33 @@ function App() {
               placeholder="Email"
             />
           </div>
-          <Experience />
-          <Education />
+          <div className="flex flex-col gap-3">
+            <h1 className="text-5xl">Experience</h1>
+            {expList.map((item) => {
+              return (
+                <Experience
+                  key={item.id}
+                  id={item.id}
+                  handleExperience={handleExperience}
+                />
+              );
+            })}
+            <button className="bg-blue-900 rounded-lg p-2 text-xl">Add</button>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <h1 className="text-5xl">Education</h1>
+            {eduList.map((item) => {
+              return (
+                <Education
+                  key={item.id}
+                  id={item.id}
+                  handleEducation={handleEducation}
+                />
+              );
+            })}
+            <button className="bg-blue-900 rounded-lg p-2 text-xl">Add</button>
+          </div>
 
           <div className="flex flex-col gap-3 mt-5">
             <button className="bg-green-500 rounded-lg p-2 text-xl">
@@ -75,11 +141,11 @@ function App() {
 
         <div className="bg-green-600 min-h-full min-w-full z-10 p-5 col-span-4 row-span-5 rounded-bl-xl">
           <h2 className="text-3xl font-bold border-b-2 pb-3 ">Experience</h2>
-          {experience.map((item) => {
+          {expList.map((item) => {
             return <ExperiencePreview key={item.id} props={item} />;
           })}
           <h2 className="text-3xl font-bold border-b-2 pb-3 mt-5">Education</h2>
-          {education.map((item) => {
+          {eduList.map((item) => {
             return <EducationPreview key={item.id} props={item} />;
           })}
         </div>
