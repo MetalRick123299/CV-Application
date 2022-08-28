@@ -84,6 +84,43 @@ function App() {
     if (list === 'edu') setEduList((prev) => [...prev, educationSingle]);
   };
 
+  const loadExample = () => {
+    setPersonal({
+      firstName: 'John',
+      lastName: 'Smith',
+      title: 'Senior Front-End Developer',
+      address: '1234 E 56 St',
+      phone: '225-565-5989',
+      email: 'thisIs@FakeEmail.com',
+    });
+    setEduList(() => [
+      {
+        id: uuidv4(),
+        university: 'University of Miami',
+        city: 'Miami',
+        degree: 'Comupter Science',
+        from: 2000,
+        to: 2006,
+      },
+    ]);
+    setExpList(() => [
+      {
+        id: uuidv4(),
+        position: 'Sr. Front-End Developer',
+        company: 'Mircosoft',
+        city: 'Settle',
+        from: 2006,
+        to: 2014,
+      },
+    ]);
+  };
+
+  const resetCV = () => {
+    setPersonal(personalCV);
+    setExpList(experienceCV);
+    setEduList(educationCV);
+  };
+
   return (
     <div className="flex flex-col mxl:justify-center items-center">
       <div className="bg-blue-500 rounded-xl shadow-lg w-[50vw] left-10 my-6 xl:absolute">
@@ -94,7 +131,6 @@ function App() {
               type="text"
               className=" text-black text-xl rounded-lg p-1 pl-3 focus:outline-none focus:ring-4 focus:ring-blue-900"
               placeholder="First Name"
-              value={personal.firstName}
               onChange={handlePersonal}
             />
             <InputField onChange={handlePersonal} placeholder="Last Name" />
@@ -155,10 +191,18 @@ function App() {
             <button className="bg-green-500 rounded-lg p-2 text-xl">
               Generate PDF
             </button>
-            <button className="bg-yellow-500 rounded-lg p-2 text-xl">
+            <button
+              onClick={loadExample}
+              className="bg-yellow-500 rounded-lg p-2 text-xl"
+            >
               Load Example
             </button>
-            <button className="bg-red-500 rounded-lg p-2 text-xl">Reset</button>
+            <button
+              onClick={resetCV}
+              className="bg-red-500 rounded-lg p-2 text-xl"
+            >
+              Reset
+            </button>
           </div>
         </div>
       </div>
